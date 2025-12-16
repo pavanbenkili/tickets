@@ -6,6 +6,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
 import { use, useState } from 'react';
+import Incidents from './Components/Incidents';
+import Project from './Components/Projects';
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
               <Route path="/"  element={<Dashboard selectedProject={projectId} />} />
               <Route path="/tickets"  element={<Tickets />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/incidents" element={<Incidents/>} />
+              <Route path="/projects" element={<Project/>} />
             </Routes>
           </main>
         </div>
