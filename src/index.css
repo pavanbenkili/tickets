@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.changing-anchor{
+  color: blue;
+  margin: 10px;
+  cursor: pointer;
+  text-align: right;
+}
+.error-text{
+  color: red;
+  font-size: 12px;
+}
