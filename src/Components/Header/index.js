@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { use, useContext, useState } from "react";
+import { ProjectContext } from "../ProjectContext";
 
 export default function Header({changeProject}) {
   const [open, setOpen] = useState(false);
+
+  const {setPr} = useContext(ProjectContext);
 
   const defaultValue = '1'
   const projctsList = [{id:1 , name:'ATS' },{id:2 , name:'WorkForce'},{id:3 , name:'Procurewise'},{id:4 , name:'Health Care'}]
@@ -9,6 +12,7 @@ export default function Header({changeProject}) {
   const onProjectChange = (e) =>{
     console.log(e.target.value,'project id from header')
     changeProject(!e.target.value ? 1 : e.target.value)
+    setPr(!e.target.value ? 1 : e.target.value)
   }
 
   return (

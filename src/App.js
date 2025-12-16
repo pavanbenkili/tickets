@@ -5,18 +5,22 @@ import Tickets from './Components/Tickets';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
-import { use, useState } from 'react';
+import {  useState } from 'react';
 import Incidents from './Components/Incidents';
 import Project from './Components/Projects';
+import {ProjectContext} from './Components/ProjectContext';
 
 function App() {
 
   const [projectId,selectedProjectId]= useState(1)
 
+  const [prId,setPr] = useState(1);
+
   const changeProject = (project_id)=>{
     selectedProjectId(project_id)
   }
   return (
+    <ProjectContext.Provider value={{prId,setPr}}> 
     <BrowserRouter>
       <div className="app-container">
 
@@ -38,6 +42,7 @@ function App() {
 
       </div>
     </BrowserRouter>
+    </ProjectContext.Provider>
   );
 }
 
