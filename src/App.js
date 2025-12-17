@@ -12,26 +12,26 @@ import {ProjectContext} from './Components/ProjectContext';
 
 function App() {
 
-  const [projectId,selectedProjectId]= useState(1)
+  // const [projectId,selectedProjectId]= useState(1)
 
   const [prId,setPr] = useState(1);
 
-  const changeProject = (project_id)=>{
-    selectedProjectId(project_id)
-  }
+  // const changeProject = (project_id)=>{
+  //   selectedProjectId(project_id)
+  // }
   return (
     <ProjectContext.Provider value={{prId,setPr}}> 
     <BrowserRouter>
       <div className="app-container">
 
-        <Header changeProject={changeProject}/>
+        <Header />
 
         <div className="body-layout">
           <Sidebar />
 
           <main className="content-area">
             <Routes>
-              <Route path="/"  element={<Dashboard selectedProject={projectId} />} />
+              <Route path="/"  element={<Dashboard  />} />
               <Route path="/tickets"  element={<Tickets />} />
               <Route path="/login" element={<Login />} />
               <Route path="/incidents" element={<Incidents/>} />

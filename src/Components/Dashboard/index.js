@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useEffect } from "react";
+import { ProjectContext } from "../ProjectContext";
+import { useContext } from "react";
 const cardsData = [
     [
   { title: "Unresolved", value: 6036, color: "#2F80ED" },
@@ -36,16 +38,26 @@ const cardsData = [
 ];
 
 
+const projectList = {
+  1: "ATS",
+  2: "WorkForce",
+  3: "Procurewise",
+  4: "Health Care"
+}
 
 
-const  Dashboard = ({selectedProject}) =>{
 
-   const [cards,setCards]=useState(cardsData[0])
+const  Dashboard = () =>{
 
-useEffect(() => {
-    console.log("Dashboard received new project:", selectedProject);
-      setCards(cardsData[selectedProject-1])
-  }, [selectedProject]);
+    const [cards,setCards] = useState(cardsData[0])
+
+   const {prId} = useContext(ProjectContext);
+   
+
+    useEffect(() => {
+        console.log("Dashboard received new project:", prId);
+          setCards(cardsData[prId-1])
+      }, [prId]);
 
   
 
@@ -53,7 +65,7 @@ useEffect(() => {
 
   return (
     <div style={styles.wrapper}>
-      <h2 style={styles.heading}>Dashboard</h2>
+      <h2 style={styles.heading}>Dashboard -- {projectList[prId]}</h2>
 
       <div style={styles.grid}>
         {cards.map((card, idx) => (
