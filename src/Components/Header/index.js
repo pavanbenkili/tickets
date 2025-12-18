@@ -1,8 +1,12 @@
 import {  useContext, useState } from "react";
 import { ProjectContext } from "../ProjectContext";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
+  
 
   const {setPr} = useContext(ProjectContext);
 
@@ -12,6 +16,13 @@ export default function Header() {
     // console.log(e.target.value,'project id from header')
     // changeProject(!e.target.value ? 1 : e.target.value)
     setPr(!e.target.value ? 1 : e.target.value)
+  }
+
+  const logout = () => {
+    console.log('logout')
+    localStorage.clear()
+    navigate("/", { replace: true });
+    
   }
 
   return (
@@ -47,7 +58,7 @@ export default function Header() {
               <p style={dropdownItem}>Edit Profile</p>
               <p style={dropdownItem}>Recycle Bin</p>
               <p style={dropdownItem}>Out of Office</p>
-              <p style={{ ...dropdownItem, borderBottom: "none" }}>Logout</p>
+              <p style={{ ...dropdownItem, borderBottom: "none" }}  onClick={logout}>Logout</p>
             </div>
           )}
         </div>

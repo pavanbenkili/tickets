@@ -1,7 +1,10 @@
 import './index.css'
-import {  useState } from 'react';
-
+import {  useEffect, useState } from 'react';
+import { ProjectContext } from '../ProjectContext';
+import { useContext } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const api = axios.create({
   baseURL:'https://ticketsstgnew.ceipal.com/cakeapi/',
@@ -9,10 +12,20 @@ const api = axios.create({
 })
 
 const Login = () => {
+  const navigate = useNavigate()
+  useEffect(() => {
+    const isLogin = localStorage.getItem("isLogin") === "true";
+    if (isLogin) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
+  
    const [form,setForm] = useState({email:'',password:''})
    const [formType,setFormType]=useState(0)
    const [emailErrors,setEmailErrors]=useState({valid:false,msg:''})
    const [passwordErrors,setPasswordErrors]=useState({valid:false,msg:''})
+
+   const {setPr} = useContext(ProjectContext);
 
    const elementSelection = (e) =>{
      e.target.name === 'email' ? validatingEmail() : validatingPassword()
@@ -69,7 +82,34 @@ const Login = () => {
     const valid = formType===0 ? emailErrors.valid && passwordErrors.valid : emailErrors.valid
     if(valid){
        try {
-        const res = await api.post("Users/login",form);
+        // const res = await api.post("Users/login",form);
+
+        const res = {
+        "success": true,
+        "message": "Login Successful",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJiZWFyZXIiOiJqdXNsMDdhbmIwanUxbHNhbHI3cG45OTJhMCIsImV4cCI6MTc2NjAwODM5Miwicm9sZV9pZCI6MSwidXNlcl9pZCI6Ik1qUTJURE5UVWpkNVoweDVibTkxVlZwTGNESlZkejA5In0.vh1MpKNylIxI3l2qg0rvPvrlfNBgRHY8_lbWuazXSE8",
+        "projectId": "Z3RkUkt2OXZJVld2MjFpOVRSTXoxZz09",
+        "user_projects": [
+            {
+                "id": "Z3RkUkt2OXZJVld2MjFpOVRSTXoxZz09",
+                "label": "ATS"
+            },
+            {
+                "id": "UGtpQkJSTEZ3Z0xBaDdsN1QwOXBIUT09",
+                "label": "WorkForce"
+            },
+            {
+                "id": "S3dUMVNKYkRseEdmNHZxNTRPN0VwUT09",
+                "label": "Procurewise"
+            }
+        ]
+        }
+         localStorage.setItem("token",res["token"]);
+         localStorage.setItem("isLogin",true);
+         setPr(1)
+        navigate("/", { replace: true });
+
+
         console.log("API DATA:", res.data);
       } catch (err) {
         console.error("API ERROR:", err);

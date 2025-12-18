@@ -1,17 +1,20 @@
 import './App.css';
 import Login from './Components/Login/inde';
-import Dashboard from './Components/Dashboard';
-import Tickets from './Components/Tickets';
-import {  Route, Routes, useLocation } from 'react-router-dom';
+
+import {  Route, Routes, useLocation,Navigate } from 'react-router-dom';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
-import {  useState } from 'react';
-import Incidents from './Components/Incidents';
-import Project from './Components/Projects';
+import {  useState ,Suspense,lazy} from 'react';
 import {ProjectContext} from './Components/ProjectContext';
-import Settings from './Components/Settings';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 
+
+const Dashboard = lazy(()=>import('./Components/Dashboard'))
+const Tickets = lazy(()=>import('./Components/Tickets'))
+const Incidents = lazy(()=>import('./Components/Incidents'))
+const Project = lazy(()=>import('./Components/Projects'))
+const Settings = lazy(()=>import('./Components/Settings'))
 function App() {
 
   // const [projectId,selectedProjectId]= useState(1)
@@ -28,7 +31,6 @@ function App() {
   // }
   return (
     <ProjectContext.Provider value={{prId,setPr}}> 
-  
       <div className="app-container">
 
        {!isLogin && <Header /> }
@@ -37,14 +39,28 @@ function App() {
            {!isLogin && <Sidebar /> }
 
           <main className="content-area">
-            <Routes>
-              <Route path="/"  element={<Dashboard  />} />
-              <Route path="/tickets"  element={<Tickets />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/incidents" element={<Incidents/>} />
-              <Route path="/projects" element={<Project/>} />
-              <Route path="/settings" element={<Settings/>} />
+            <Suspense fallback={(<div><img src="loader.png" alt='Loader...'></img></div>)}>
+                <Routes>
+
+               <Route path="/login" element={<Login />} />
+
+              
+                   <Route element={<ProtectedRoute/>} >
+                  <Route path="/"  element={<Dashboard  />} />
+                   {/* <Route path="/login" element={<Login />} /> */}
+                  <Route path="/dashboard" element={<Navigate to="/" replace />} />
+                  <Route path="/tickets"  element={<Tickets />} />
+                
+                  <Route path="/incidents" element={<Incidents/>} />
+                  <Route path="/projects" element={<Project/>} />
+                  <Route path="/settings" element={<Settings/>} />
+                  </Route>
+             
+
+              
             </Routes>
+            </Suspense>
+            
           </main>
         </div>
 
