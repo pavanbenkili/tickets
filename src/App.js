@@ -8,6 +8,14 @@ import {  useState ,Suspense,lazy} from 'react';
 import {ProjectContext} from './Components/ProjectContext';
 import ProtectedRoute from './Components/ProtectedRoute';
 
+const itemStyle = {
+  textDecoration: "none",
+  color: "#333",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  cursor: "pointer",
+};
 
 
 const Dashboard = lazy(()=>import('./Components/Dashboard'))
@@ -39,7 +47,7 @@ function App() {
            {!isLogin && <Sidebar /> }
 
           <main className="content-area">
-            <Suspense fallback={(<div><img src="loader.png" alt='Loader...'></img></div>)}>
+            <Suspense fallback={(<div style={itemStyle}><img src="loader.png" alt='Loader...'></img></div>)}>
                 <Routes>
 
                <Route path="/login" element={<Login />} />
